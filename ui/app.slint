@@ -1,0 +1,390 @@
+import {
+    Button,
+    VerticalBox,
+    LineEdit,
+    ComboBox,
+    ProgressIndicator,
+    TextEdit,
+    GroupBox,
+    HorizontalBox,
+} from "std-widgets.slint";
+
+import { Card, TabButton } from "components/components.slint";
+
+export component App inherits Window {
+    title: "Aura Factory v" + root.app-version;
+    min-width: 800px;
+    min-height: 600px;
+    background: #f8fafc;
+    icon: @image-url("statics/logo.png"); // Window Icon
+
+    in-out property <string> app-version: "";
+    in-out property <string> selected-file: "";
+    in-out property <string> status-message: "准备就绪";
+    in-out property <float> progress: 0.0;
+    in-out property <bool> is-converting: false;
+    in-out property <string> output-format: "mp4";
+    in-out property <string> total-duration: "未知";
+    in-out property <string> source-info: "";
+    in-out property <string> start-time: "";
+    in-out property <string> end-time: "";
+
+    in-out property <string> video-resolution: "Source";
+    in-out property <string> video-fps: "Source";
+    in-out property <string> video-bitrate: "Auto";
+    in-out property <string> video-codec: "Auto";
+    in-out property <string> audio-samplerate: "Auto";
+    in-out property <string> audio-bitrate: "Auto";
+    
+    in-out property <int> active-tab: 0;
+
+    callback select-file();
+    callback start-conversion();
+    callback cancel-conversion();
+    callback open-github-link();
+
+    VerticalBox {
+        padding: 24px;
+        spacing: 0px; // Spacing handled by layout elements
+
+        // Header
+        HorizontalBox {
+            padding-left: 20px;
+            padding-top: 20px;
+            spacing: 12px;
+            
+            TouchArea {
+                width: 48px;
+                height: 48px;
+                mouse-cursor: pointer;
+                clicked => { root.open-github-link(); }
+                
+                Image {
+                    source: @image-url("statics/logo.png");
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            Text {
+                text: "Aura Factory (光影工厂) ";
+                font-size: 32px;
+                font-weight: 800;
+                color: #0f172a;
+                vertical-alignment: center;
+            }
+        }Rectangle { height: 20px; } // Spacer
+
+        // Tab Bar
+        HorizontalBox {
+            padding: 0px;
+            spacing: 4px;
+            alignment: start;
+            
+            TabButton {
+                text: "常规 (General)";
+                active: root.active-tab == 0;
+                width: 120px;
+                clicked => { root.active-tab = 0; }
+            }
+            TabButton {
+                text: "输出 (Output)";
+                active: root.active-tab == 1;
+                width: 120px;
+                clicked => { root.active-tab = 1; }
+            }
+            Rectangle { horizontal-stretch: 1; } // Filler
+        }
+        
+        // Tab Content Area
+        Rectangle {
+            background: #ffffff;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            border-top-right-radius: 12px;
+            // Note: Top Left isn't rounded to merge with tab? 
+            // Or just simple rounded box below tabs.
+            border-color: #e5e7eb;
+            // border-width: 1px; // Optional border
+            
+            vertical-stretch: 1;
+            
+            VerticalBox {
+                padding: 24px;
+                spacing: 20px;
+                alignment: start;
+
+                // --- Tab 0: Input & Trimming ---
+                if (root.active-tab == 0) : VerticalBox {
+                    spacing: 20px;
+                    
+                    // Input Card
+                    Card {
+                        card-title: "输入源 (Input)";
+                        VerticalBox {
+                            spacing: 12px;
+                            HorizontalBox {
+                                spacing: 12px;
+                                LineEdit {
+                                    text: root.selected-file;
+                                    placeholder-text: "请选择媒体文件...";
+                                    read-only: true;
+                                    horizontal-stretch: 1;
+                                    height: 40px;
+                                    font-size: 14px;
+                                }
+                                Button {
+                                    text: "浏览";
+                                    width: 100px;
+                                    height: 40px;
+                                    clicked => { root.select-file(); }
+                                    enabled: !root.is-converting;
+                                }
+                            }
+                            HorizontalBox {
+                                spacing: 8px;
+                                Text { 
+                                    text: "信息:"; 
+                                    color: #6b7280; 
+                                    font-weight: 600; 
+                                    vertical-alignment: center; 
+                                }
+                                Text {
+                                    text: root.total-duration != "未知" ? (root.total-duration + " | " + root.source-info) : "等待选择...";
+                                    color: root.total-duration != "未知" ? #374151 : #9ca3af;
+                                    vertical-alignment: center;
+                                    overflow: elide;
+                                }
+                            }
+                        }
+                    }
+
+                    // Trimming Card
+                    Card {
+                        card-title: "剪辑片段 (Trimming)";
+                        HorizontalBox {
+                            spacing: 12px;
+                            LineEdit {
+                                placeholder-text: "开始时间 (00:00:00)";
+                                text: root.start-time;
+                                edited(text) => { root.start-time = text; }
+                                enabled: !root.is-converting;
+                                height: 36px;
+                            }
+                            Text { text: "~"; vertical-alignment: center; color: #9ca3af; }
+                            LineEdit {
+                                placeholder-text: "结束时间 (00:00:00)";
+                                text: root.end-time;
+                                edited(text) => { root.end-time = text; }
+                                enabled: !root.is-converting;
+                                height: 36px;
+                            }
+                        }
+                    }
+                }
+
+                // --- Tab 1: Configuration ---
+                if (root.active-tab == 1) : VerticalBox {
+                    spacing: 20px;
+
+                    Card {
+                        card-title: "转换配置 (Settings)";
+                        GridLayout {
+                             spacing: 12px;
+                             
+                             // --- Format Section ---
+                             Text { 
+                                 text: "输出格式:"; 
+                                 color: #4b5563; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 0; col: 0;
+                             }
+                             ComboBox {
+                                 model: ["mp4", "mp3", "mkv", "avi", "gif", "wav", "mov"];
+                                 current-value: root.output-format;
+                                 selected => { root.output-format = self.current-value; }
+                                 enabled: !root.is-converting;
+                                 width: 240px; // Increased from 130px
+                                 row: 0; col: 1;
+                             }
+                             // Emtpy spacer for rest of row 0
+                             Rectangle { row: 0; col: 4; horizontal-stretch: 1; }
+
+                             // --- Divider ---
+                             Rectangle { 
+                                 height: 1px; 
+                                 background: #f3f4f6; 
+                                 row: 1; col: 0; colspan: 5; 
+                             }
+
+                             // --- Video Section ---
+                             Text { 
+                                 text: "视频 (Video)"; 
+                                 color: #2563eb; 
+                                 font-weight: 600; 
+                                 font-size: 14px; 
+                                 row: 2; col: 0; colspan: 5;
+                             }
+                             
+                             // Row 3: Res & FPS
+                             Text { 
+                                 text: "分辨率"; 
+                                 color: #6b7280; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 3; col: 0;
+                             }
+                             ComboBox {
+                                 model: ["Source", "1920x1080", "1280x720", "854x480"];
+                                 current-value: root.video-resolution;
+                                 selected => { root.video-resolution = self.current-value; }
+                                 enabled: !root.is-converting && root.output-format != "mp3" && root.output-format != "wav";
+                                 width: 240px;
+                                 row: 3; col: 1;
+                             }
+
+                             Text { 
+                                 text: "帧率"; 
+                                 color: #6b7280; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 3; col: 2;
+                             }
+                             ComboBox {
+                                 model: ["Source", "24", "30", "60"];
+                                 current-value: root.video-fps;
+                                 selected => { root.video-fps = self.current-value; }
+                                 enabled: !root.is-converting && root.output-format != "mp3" && root.output-format != "wav";
+                                 width: 240px; 
+                                 row: 3; col: 3;
+                             }
+
+                             // Row 4: Codec & Bitrate
+                             Text { 
+                                 text: "编码"; 
+                                 color: #6b7280; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 4; col: 0;
+                             }
+                             ComboBox {
+                                 model: ["Auto", "h264", "h265", "copy"];
+                                 current-value: root.video-codec;
+                                 selected => { root.video-codec = self.current-value; }
+                                 enabled: !root.is-converting && root.output-format != "mp3" && root.output-format != "wav" && root.output-format != "gif";
+                                 width: 240px;
+                                 row: 4; col: 1;
+                             }
+
+                             Text { 
+                                 text: "码率"; 
+                                 color: #6b7280; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 4; col: 2;
+                             }
+                             ComboBox {
+                                 model: ["Auto", "500k", "1000k", "2000k", "4000k", "8000k"];
+                                 current-value: root.video-bitrate;
+                                 selected => { root.video-bitrate = self.current-value; }
+                                 enabled: !root.is-converting && root.output-format != "mp3" && root.output-format != "wav";
+                                 width: 240px; 
+                                 row: 4; col: 3;
+                             }
+
+                             // --- Divider ---
+                             Rectangle { 
+                                 height: 1px; 
+                                 background: #f3f4f6; 
+                                 row: 5; col: 0; colspan: 5; 
+                             }
+
+                             // --- Audio Section ---
+                             Text { 
+                                 text: "音频 (Audio)"; 
+                                 color: #2563eb; 
+                                 font-weight: 600; 
+                                 font-size: 14px; 
+                                 row: 6; col: 0; colspan: 5;
+                             }
+
+                             // Row 7: SampleRate & Bitrate
+                             Text { 
+                                 text: "采样率"; 
+                                 color: #6b7280; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 7; col: 0;
+                             }
+                             ComboBox {
+                                 model: ["Auto", "44100", "48000"];
+                                 current-value: root.audio-samplerate;
+                                 selected => { root.audio-samplerate = self.current-value; }
+                                 enabled: !root.is-converting;
+                                 width: 240px;
+                                 row: 7; col: 1;
+                             }
+
+                             Text { 
+                                 text: "码率"; 
+                                 color: #6b7280; 
+                                 vertical-alignment: center; 
+                                 horizontal-alignment: right;
+                                 row: 7; col: 2;
+                             }
+                             ComboBox {
+                                 model: ["Auto", "64k", "128k", "192k", "320k"];
+                                 current-value: root.audio-bitrate;
+                                 selected => { root.audio-bitrate = self.current-value; }
+                                 enabled: !root.is-converting;
+                                 width: 240px; 
+                                 row: 7; col: 3;
+                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        Rectangle { height: 20px; } // Spacer
+
+        // --- Persistent Footer Actions ---
+        VerticalBox {
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-bottom: 0px;
+            spacing: 12px;
+            
+            Button {
+                text: root.is-converting ? "停止转换" : "开始转换";
+                primary: !root.is-converting;
+                height: 50px;
+                clicked => { 
+                    if (root.is-converting) {
+                        root.cancel-conversion();
+                    } else {
+                        root.start-conversion(); 
+                    }
+                }
+                enabled: root.is-converting || root.selected-file != "";
+            }
+
+
+            VerticalBox {
+                    spacing: 6px;
+                    ProgressIndicator {
+                    progress: root.progress;
+                    height: 8px;
+                    indeterminate: root.is-converting && root.progress <= 0.01;
+                }
+                Text {
+                    text: root.status-message;
+                    color: #6b7280;
+                    font-size: 12px;
+                    horizontal-alignment: center;
+                }
+            }
+        }
+    }
+}

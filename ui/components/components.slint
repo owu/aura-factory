@@ -1,0 +1,61 @@
+import {
+    VerticalBox,
+    HorizontalBox,
+} from "std-widgets.slint";
+
+export component Card inherits Rectangle {
+    background: #ffffff;
+    border-radius: 12px;
+    border-color: #e5e7eb;
+    border-width: 1px;
+    
+    in-out property <string> card-title: "";
+
+    VerticalBox {
+        padding: 16px;
+        spacing: 12px;
+        
+        if (root.card-title != "") : Text {
+            text: root.card-title;
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827; // Gray 900
+        }
+        
+        @children
+    }
+}
+
+export component TabButton inherits Rectangle {
+    in-out property <string> text;
+    in-out property <bool> active;
+    callback clicked <=> touch.clicked;
+
+    height: 40px;
+    background: root.active ? #ffffff : transparent;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    
+    // Bottom border to blend with content area if active
+    // or separator if inactive.
+    
+    VerticalBox {
+        alignment: center;
+        Text {
+            text: root.text;
+            color: root.active ? #2563eb : #6b7280;
+            font-weight: root.active ? 700 : 500;
+            horizontal-alignment: center;
+        }
+    }
+    
+    // Active Indicator Line
+    if (root.active) : Rectangle {
+        width: 100%;
+        height: 2px;
+        background: #2563eb;
+        y: parent.height - self.height;
+    }
+    
+    touch := TouchArea { }
+}
