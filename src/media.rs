@@ -125,17 +125,25 @@ pub async fn get_probe_result(input_path: &str) -> Result<ProbeResult> {
     let mut output = None;
 
     for probe_cmd in possible_paths {
-        let res = Command::new(probe_cmd)
-            .args(&[
-                "-v",
-                "quiet",
-                "-print_format",
-                "json",
-                "-show_format",
-                "-show_streams",
-                input_path,
-            ])
-            .output();
+        let mut cmd = Command::new(probe_cmd);
+        cmd.args(&[
+            "-v",
+            "quiet",
+            "-print_format",
+            "json",
+            "-show_format",
+            "-show_streams",
+            input_path,
+        ]);
+        
+        // On Windows, hide console window for subprocess
+        #[cfg(windows)]
+        {
+            use std::os::windows::process::CommandExt;
+            cmd.creation_flags(0x08000000); // CREATE_NO_WINDOW
+        }
+        
+        let res = cmd.output();
 
         if let Ok(out) = res {
             if out.status.success() {
