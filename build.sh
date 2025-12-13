@@ -23,7 +23,7 @@ mkdir -p build/aura-factory/usr/local/share/applications
 cp target/x86_64-unknown-linux-gnu/release/aura-factory build/aura-factory/usr/bin/
 
 # Copy icon
-cp ui/statics/logo.png build/aura-factory/usr/local/share/icons/aura-factory.png
+cp ui/statics/linux.png build/aura-factory/usr/local/share/icons/aura-factory.png
 
 # Create desktop file
 cat > build/aura-factory/usr/local/share/applications/aura-factory.desktop << EOF
