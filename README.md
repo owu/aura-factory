@@ -32,7 +32,6 @@ cargo run .
 ## 4. install  && uninstall
 - 4.1 windows
   - Download the latest release from the [releases page](https://github.com/owu/aura-factory/releases).
-  - Extract the zip file to a directory of your choice.
   - Run `AuraFactory.v0.0.1.x86_64-windows.exe`.
 
 - 4.2 linux install
