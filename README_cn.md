@@ -49,6 +49,6 @@ cd  ./AuraFactory.x86_64-linux  &&  sudo make  uninstall && cd ../ &&  rm -rf  .
 
 ## 5. 截图
 
-![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.jpg)
+![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.png)
 
-![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.jpg)
+![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.png)
