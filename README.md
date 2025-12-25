@@ -1,5 +1,9 @@
 # aura-factory
-A free and open-source desktop audio and video conversion tool.
+Aura Factory is a free and open-source desktop audio and video conversion tool developed in Rust. It uses the modern GUI framework Slint to build its user interface and utilizes FFmpeg as its underlying audio and video processing engine.
+
+Aura Factory showcases a complete technology stack for modern Rust desktop application development, combining a high-performance system programming language with a modern GUI framework.
+
+The project employs a sound architectural design, ensuring good maintainability and extensibility. Through detailed code analysis and modular design, it lays a solid foundation for future feature expansions.
 
 ---
 English | [中文](./README_cn.md) | [日本語](./README_jp.md)
