@@ -35,6 +35,7 @@ cargo run .
 ## 4. インストールとアンインストール
 - 4.1 Windows
   - [リリースページ](https://github.com/owu/aura-factory/releases) から最新リリースをダウンロードします。
+  - 任意のディレクトリに zip ファイルを解凍します。
   - `AuraFactory.v0.0.1.x86_64-windows.exe` を実行します。
 
 - 4.2 Linux インストール
@@ -51,6 +52,6 @@ cd  ./AuraFactory.x86_64-linux  &&  sudo make  uninstall && cd ../ &&  rm -rf  .
 
 ## 5. スクリーンショット
 
-![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.jpg)
+![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.png)
 
-![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.jpg)
+![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.png)
