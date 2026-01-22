@@ -37,12 +37,12 @@ cargo run .
 - 4.1 windows
   - Download the latest release from the [releases page](https://github.com/owu/aura-factory/releases).
   - Extract the zip file to a directory of your choice.
-  - Run `AuraFactory.v0.0.1.x86_64-windows.exe`.
+  - Run `AuraFactory.v0.0.2.x86_64-windows.exe`.
 
 - 4.2 linux install
   - Download the latest release from the [releases page](https://github.com/owu/aura-factory/releases).
 ```
-mkdir ./AuraFactory.x86_64-linux  &&  tar  -xJf   ./AuraFactory.v0.0.1.x86_64-linux.tar.xz  -C  ./AuraFactory.x86_64-linux  &&  cd  ./AuraFactory.x86_64-linux  && sudo  make  install
+mkdir ./AuraFactory.x86_64-linux  &&  tar  -xJf   ./AuraFactory.v0.0.2.x86_64-linux.tar.xz  -C  ./AuraFactory.x86_64-linux  &&  cd  ./AuraFactory.x86_64-linux  && sudo  make  install
 ```
 - 4.3 linux uninstall
 ```
@@ -52,7 +52,7 @@ cd  ./AuraFactory.x86_64-linux  &&  sudo make  uninstall && cd ../ &&  rm -rf  .
 
 
 ## 5. screenshot
-
-![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.png)
-
-![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.png)
+<p align="center">
+  <img src="screenshot/general.png" width="48%" />
+  <img src="screenshot/output.png" width="48%" />
+</p>

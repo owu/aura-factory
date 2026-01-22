@@ -37,12 +37,12 @@ cargo run .
 - 4.1 Windows
   - 从 [发布页面](https://github.com/owu/aura-factory/releases) 下载最新版本。
   - 将 zip 文件解压到您选择的目录。
-  - 运行 `AuraFactory.v0.0.1.x86_64-windows.exe`。
+  - 运行 `AuraFactory.v0.0.2.x86_64-windows.exe`。
 
 - 4.2 Linux 安装
   - 从 [发布页面](https://github.com/owu/aura-factory/releases) 下载最新版本。
 ```
-mkdir ./AuraFactory.x86_64-linux  &&  tar  -xJf   ./AuraFactory.v0.0.1.x86_64-linux.tar.xz  -C  ./AuraFactory.x86_64-linux  &&  cd  ./AuraFactory.x86_64-linux  && sudo  make  install
+mkdir ./AuraFactory.x86_64-linux  &&  tar  -xJf   ./AuraFactory.v0.0.2.x86_64-linux.tar.xz  -C  ./AuraFactory.x86_64-linux  &&  cd  ./AuraFactory.x86_64-linux  && sudo  make  install
 ```
 - 4.3 Linux 卸载
 ```
@@ -52,7 +52,7 @@ cd  ./AuraFactory.x86_64-linux  &&  sudo make  uninstall && cd ../ &&  rm -rf  .
 
 
 ## 5. 截图
-
-![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.png)
-
-![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.png)
+<p align="center">
+  <img src="screenshot/general.png" width="48%" />
+  <img src="screenshot/output.png" width="48%" />
+</p>

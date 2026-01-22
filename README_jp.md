@@ -36,12 +36,12 @@ cargo run .
 - 4.1 Windows
   - [リリースページ](https://github.com/owu/aura-factory/releases) から最新リリースをダウンロードします。
   - 任意のディレクトリに zip ファイルを解凍します。
-  - `AuraFactory.v0.0.1.x86_64-windows.exe` を実行します。
+  - `AuraFactory.v0.0.2.x86_64-windows.exe` を実行します。
 
 - 4.2 Linux インストール
   - [リリースページ](https://github.com/owu/aura-factory/releases) から最新リリースをダウンロードします。
 ```
-mkdir ./AuraFactory.x86_64-linux  &&  tar  -xJf   ./AuraFactory.v0.0.1.x86_64-linux.tar.xz  -C  ./AuraFactory.x86_64-linux  &&  cd  ./AuraFactory.x86_64-linux  && sudo  make  install
+mkdir ./AuraFactory.x86_64-linux  &&  tar  -xJf   ./AuraFactory.v0.0.2.x86_64-linux.tar.xz  -C  ./AuraFactory.x86_64-linux  &&  cd  ./AuraFactory.x86_64-linux  && sudo  make  install
 ```
 - 4.3 Linux アンインストール
 ```
@@ -51,7 +51,7 @@ cd  ./AuraFactory.x86_64-linux  &&  sudo make  uninstall && cd ../ &&  rm -rf  .
 
 
 ## 5. スクリーンショット
-
-![general](https://github.com/owu/aura-factory/raw/unstable/screenshot/general.png)
-
-![output](https://github.com/owu/aura-factory/raw/unstable/screenshot/output.png)
+<p align="center">
+  <img src="screenshot/general.png" width="48%" />
+  <img src="screenshot/output.png" width="48%" />
+</p>

@@ -29,7 +29,7 @@ fn main() {
         let version = version_regex.captures(&consts_content)
             .and_then(|cap| cap.get(1))
             .map(|m| m.as_str())
-            .unwrap_or("0.0.1");
+            .unwrap_or("0.0.2");
         
         // 将版本号拆分为主要、次要、补丁版本号
         let mut version_parts = version.split('.').map(|p| p.parse::<u16>().unwrap_or(0)).collect::<Vec<_>>();

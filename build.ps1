@@ -6,7 +6,7 @@ Write-Host "Building Windows executable for Aura Factory..." -ForegroundColor Gr
 cargo clean
 
 # Execute cargo build command
-cargo build --release --target x86_64-pc-windows-msvc
+cargo build --release --target x86_64-pc-windows-gnu
 
 # Check if build was successful
 if ($LASTEXITCODE -ne 0) {
@@ -21,7 +21,7 @@ $versionMatch = $constsContent | Select-String -Pattern $versionRegex
 $version = $versionMatch.Matches.Groups[1].Value
 
 # Define source and destination paths
-$sourcePath = "./target/x86_64-pc-windows-msvc/release/aura-factory.exe"
+$sourcePath = "./target/x86_64-pc-windows-gnu/release/aura-factory.exe"
 $destinationPath = "./AuraFactory.v$version.x86_64-windows.exe"
 
 # Copy and rename the executable
