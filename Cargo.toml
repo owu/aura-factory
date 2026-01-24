@@ -1,7 +1,16 @@
 [package]
 name = "aura-factory"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2024"
+description = "A free and open-source desktop audio and video conversion tool build with Rust and Slint."
+authors = ["owu <owu@github.com>"]
+license = "GPL-3.0-only"
+homepage = "https://github.com/owu/aura-factory"
+repository = "https://github.com/owu/aura-factory"
+readme = "README.md"
+keywords = ["video", "audio", "converter", "slint", "ffmpeg"]
+categories = ["multimedia::video", "multimedia::audio"]
+
 
 
 [dependencies]

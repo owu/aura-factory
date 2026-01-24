@@ -1,6 +1,16 @@
 #!/usr/bin/env pwsh
 
+# Go to project root
+$ProjectRoot = Resolve-Path "$PSScriptRoot/../.."
+Set-Location $ProjectRoot
+
 Write-Host "Building Windows executable for Aura Factory..." -ForegroundColor Green
+
+# Ensure releases directory exists
+$ReleaseDir = Join-Path $ProjectRoot "build/releases"
+if (-not (Test-Path $ReleaseDir)) {
+    New-Item -ItemType Directory -Path $ReleaseDir
+}
 
 # Clean previous builds
 cargo clean
@@ -18,11 +28,16 @@ if ($LASTEXITCODE -ne 0) {
 $constsContent = Get-Content -Path "./src/consts.rs"
 $versionRegex = 'APP_VERSION: &str = "([^"]+)"'
 $versionMatch = $constsContent | Select-String -Pattern $versionRegex
-$version = $versionMatch.Matches.Groups[1].Value
+if ($versionMatch) {
+    $version = $versionMatch.Matches.Groups[1].Value
+} else {
+    $version = "unknown"
+}
 
 # Define source and destination paths
 $sourcePath = "./target/x86_64-pc-windows-gnu/release/aura-factory.exe"
-$destinationPath = "./AuraFactory.v$version.x86_64-windows.exe"
+$destinationName = "AuraFactory.v$version.x86_64-windows.exe"
+$destinationPath = Join-Path $ReleaseDir $destinationName
 
 # Copy and rename the executable
 Copy-Item -Path $sourcePath -Destination $destinationPath -Force

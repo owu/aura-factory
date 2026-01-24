@@ -23,13 +23,13 @@ cargo run .
 ### 3.1 windows
 ```powershell
 
-./build.ps1
+./build/scripts/build.ps1
  
 ```
 
 ### 3.2 linux
 ```bash
-./build.sh
+./build/scripts/build.sh
  
 ```
 
