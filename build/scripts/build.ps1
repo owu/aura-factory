@@ -16,7 +16,7 @@ if (-not (Test-Path $ReleaseDir)) {
 cargo clean
 
 # Execute cargo build command
-cargo build --release --target x86_64-pc-windows-gnu
+cargo build --release --target x86_64-pc-windows-msvc
 
 # Check if build was successful
 if ($LASTEXITCODE -ne 0) {
@@ -30,12 +30,13 @@ $versionRegex = 'APP_VERSION: &str = "([^"]+)"'
 $versionMatch = $constsContent | Select-String -Pattern $versionRegex
 if ($versionMatch) {
     $version = $versionMatch.Matches.Groups[1].Value
-} else {
+}
+else {
     $version = "unknown"
 }
 
 # Define source and destination paths
-$sourcePath = "./target/x86_64-pc-windows-gnu/release/aura-factory.exe"
+$sourcePath = "./target/x86_64-pc-windows-msvc/release/aura-factory.exe"
 $destinationName = "AuraFactory.v$version.x86_64-windows.exe"
 $destinationPath = Join-Path $ReleaseDir $destinationName
 
